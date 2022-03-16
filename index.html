@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Corrida de Carros</title>
+    <!-- Lib -->
+    <script src="./lib/p5.min.js"></script>
+    <script src="./lib/p5.dom.min.js"></script>
+    <script src="./lib/p5.sound.min.js"></script>
+    <script src="./lib/p5.play.js"></script>
+
+    <link rel="stylesheet" href="style.css" />
+    
+    <script src="./js/Game.js"></script>
+    <script src="./js/Form.js"></script>
+    <script src="./js/Player.js"></script>
+
+    <!-- ADICIONAR CÓDIGO Firebase SDK ABAIXO -->
+<!-- Firebase -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+      // Your web app's Firebase configuration
+
+      //banco prof
+     /* const firebaseConfig = {
+      apiKey: "AIzaSyBUfR5GwUkszmjQJwj4j-erheJSbXhWxhk",
+      authDomain: "jogo-corrida-julia.firebaseapp.com",
+      databaseURL: "https://jogo-corrida-julia-default-rtdb.firebaseio.com",
+      projectId: "jogo-corrida-julia",
+      storageBucket: "jogo-corrida-julia.appspot.com",
+      messagingSenderId: "887367170420",
+      appId: "1:887367170420:web:e1a3099e323da2ab16d421"
+      };*/
+
+    //banco Julia
+    const firebaseConfig = {
+  apiKey: "AIzaSyD_qOlQISE06oZ_9NOeKlyt0BdOgyjGd_E",
+  authDomain: "jogo-de-corrida-3e917.firebaseapp.com",
+  databaseURL: "https://jogo-de-corrida-3e917-default-rtdb.firebaseio.com",
+  projectId: "jogo-de-corrida-3e917",
+  storageBucket: "jogo-de-corrida-3e917.appspot.com",
+  messagingSenderId: "398483229372",
+  appId: "1:398483229372:web:1a0f651b7c91b36ee39eb9"
+};
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+    
+
+   
+  </head>
+  <body>
+    <script src="./sketch.js"></script>
+  </body>
+</html>
