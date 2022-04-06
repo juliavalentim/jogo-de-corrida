@@ -34,6 +34,12 @@ class Form {
       var message = ` hello, ${this.input.value()}<br> 
       wait the other player`
       this.greeting.html(message)
+      playerCount ++
+      player.name = this.input.value()
+      player.index = playerCount
+      player.addPlayer()
+      player.updateCount(playerCount)
+      
     })
   }
 
