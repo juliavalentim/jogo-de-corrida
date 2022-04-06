@@ -23,6 +23,7 @@ function preload() {
   obsimg2 = loadImage("./assets/obstacle2.png")
   fuelimg = loadImage("./assets/fuel.png")
   coinimg = loadImage("./assets/goldCoin.png")
+  lifeimg = loadImage("./assets/life.png")
 }
 
 function setup() {
