@@ -5,6 +5,7 @@ class Game {
     this.rankTitle = createElement('h2')
     this.leader1 = createElement('h2')
     this.leader2 = createElement('h2')
+    this.playerMove = false
   }
 
   getState() {
@@ -123,9 +124,11 @@ class Game {
 
       this.showLeaderBoard()
       this.showLife()
+      this.showFuelbar()
 
       var index = 0
       for (const plr in allPlayers) {
+
         index++
         var x = allPlayers[plr].positionX
         var y = height - allPlayers[plr].positionY
@@ -145,6 +148,11 @@ class Game {
       }
       this.handlePlayerControl()
 
+      if (this.playerMove) {
+        player.positionY += 5
+        player.update()
+      }
+
       const finishLine = height*6 -100
       if (player.positionY > finishLine) {
         gameState = 2
@@ -162,6 +170,7 @@ class Game {
     if (keyIsDown(UP_ARROW)) {
       player.positionY += 10
       player.update()
+      this.playerMove = true
     }
 
     if (keyIsDown(LEFT_ARROW) && player.positionX > width / 3 - 50) {
@@ -211,6 +220,15 @@ class Game {
       player.fuel = 185
       collected.remove()
     })
+
+    if (player.fuel > 0 && this.playerMove) {
+      player.fuel -= 0.3
+    }
+
+    if (player.fuel <= 0) {
+      gameState = 2
+      this.gameOver()
+    }
   }
 
   handleCoin(index) {
@@ -250,6 +268,16 @@ class Game {
     rect(width/2 -100,height-player.positionY - 300,185,20)
     fill("#f50057")
     rect(width/2 -100,height-player.positionY - 300,player.life,20)
+    pop()
+  }
+
+  showFuelbar(){
+    push()
+    image(fuelimg,width/2 -130,height-player.positionY - 250,20,20)
+    fill("#ffffff")
+    rect(width/2 -100,height-player.positionY - 250,185,20)
+    fill("yellow")
+    rect(width/2 -100,height-player.positionY - 250,player.fuel,20)
     pop()
   }
 }
