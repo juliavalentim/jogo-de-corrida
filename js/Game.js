@@ -6,6 +6,8 @@ class Game {
     this.leader1 = createElement('h2')
     this.leader2 = createElement('h2')
     this.playerMove = false
+    this.leftKeyActive = false
+    this.blast = false
   }
 
   getState() {
@@ -32,11 +34,14 @@ class Game {
 
 
     car1 = createSprite(width / 2 - 50, height - 100)
-    car1.addImage(car1img)
+    car1.addImage("car1", car1img)
+    car1.addImage("blast", blastimg)
     car1.scale = 0.07
     car2 = createSprite(width / 2 + 100, height - 100)
-    car2.addImage(car2img)
+    car2.addImage("car2", car2img)
+    car2.addImage("blast", blastimg)
     car2.scale = 0.07
+
 
     cars = [car1, car2]
 
@@ -132,6 +137,11 @@ class Game {
         index++
         var x = allPlayers[plr].positionX
         var y = height - allPlayers[plr].positionY
+        var currentLife = allPlayers[plr].life
+        if (currentLife <= 0) {
+          cars[index - 1].changeImage("blast")
+          cars[index - 1].scale = 0.3
+        }
 
         cars[index - 1].position.x = x
         cars[index - 1].position.y = y
@@ -141,6 +151,12 @@ class Game {
           ellipse(x, y, 60, 60)
           this.handleCoin(index)
           this.handleFuel(index)
+          this.handleObstaclescollision(index)
+          this.handleCollisionCars(index)
+          if (player.life <= 0) {
+            this.blast = true
+            this.playerMove = false
+          }
 
           //camera.position.x = cars[index-1].position.x
           camera.position.y = cars[index - 1].position.y
@@ -153,34 +169,41 @@ class Game {
         player.update()
       }
 
-      const finishLine = height*6 -100
+      const finishLine = height * 6 - 100
       if (player.positionY > finishLine) {
         gameState = 2
-        player.rank ++
+        player.rank++
         Player.updateCarsAtEnd(player.rank)
         player.update()
         this.showRank()
-        
+
       }
       drawSprites()
     }
   }
 
   handlePlayerControl() {
-    if (keyIsDown(UP_ARROW)) {
-      player.positionY += 10
-      player.update()
-      this.playerMove = true
-    }
 
-    if (keyIsDown(LEFT_ARROW) && player.positionX > width / 3 - 50) {
-      player.positionX -= 5
-      player.update()
-    }
+    if (! this.blast) {
+      
 
-    if (keyIsDown(RIGHT_ARROW) && player.positionX < width / 2 + 300) {
-      player.positionX += 5
-      player.update()
+      if (keyIsDown(UP_ARROW)) {
+        player.positionY += 10
+        player.update()
+        this.playerMove = true
+      }
+
+      if (keyIsDown(LEFT_ARROW) && player.positionX > width / 3 - 50) {
+        player.positionX -= 5
+        player.update()
+        this.leftKeyActive = true
+      }
+
+      if (keyIsDown(RIGHT_ARROW) && player.positionX < width / 2 + 300) {
+        player.positionX += 5
+        player.update()
+        this.leftKeyActive = false
+      }
     }
   }
 
@@ -190,7 +213,7 @@ class Game {
         gameState: 0,
         playerCount: 0,
         players: {},
-        carsAtEnd:0
+        carsAtEnd: 0
       })
       window.location.reload();
     })
@@ -261,25 +284,75 @@ class Game {
     });
   }
 
-  showLife(){
+  showLife() {
     push()
-    image(lifeimg,width/2 -130,height-player.positionY - 300,20,20)
+    image(lifeimg, width / 2 - 130, height - player.positionY - 300, 20, 20)
     fill("#ffffff")
-    rect(width/2 -100,height-player.positionY - 300,185,20)
+    rect(width / 2 - 100, height - player.positionY - 300, 185, 20)
     fill("#f50057")
-    rect(width/2 -100,height-player.positionY - 300,player.life,20)
+    rect(width / 2 - 100, height - player.positionY - 300, player.life, 20)
     pop()
   }
 
-  showFuelbar(){
+  showFuelbar() {
     push()
-    image(fuelimg,width/2 -130,height-player.positionY - 250,20,20)
+    image(fuelimg, width / 2 - 130, height - player.positionY - 250, 20, 20)
     fill("#ffffff")
-    rect(width/2 -100,height-player.positionY - 250,185,20)
+    rect(width / 2 - 100, height - player.positionY - 250, 185, 20)
     fill("yellow")
-    rect(width/2 -100,height-player.positionY - 250,player.fuel,20)
+    rect(width / 2 - 100, height - player.positionY - 250, player.fuel, 20)
     pop()
   }
+
+  handleObstaclescollision(index) {
+    if (cars[index - 1].collide(obstacles)) {
+      if (this.leftKeyActive) {
+        player.positionX += 100
+      } else {
+        player.positionX -= 100
+      }
+      if (player.life > 0) {
+        player.life -= 185 / 4
+      }
+      player.update()
+    }
+
+  }
+
+  handleCollisionCars(index) {
+    if (index == 1) {
+      if (cars[index - 1].collide(cars[1])) {
+
+
+        if (this.leftKeyActive) {
+          player.positionX += 100
+        } else {
+          player.positionX -= 100
+        }
+        if (player.life > 0) {
+          player.life -= 185 / 4
+        }
+        player.update()
+      }
+    }
+    if (index == 2) {
+      if (cars[index - 1].collide(cars[0])) {
+
+
+        if (this.leftKeyActive) {
+          player.positionX += 100
+        } else {
+          player.positionX -= 100
+        }
+        if (player.life > 0) {
+          player.life -= 185 / 4
+        }
+        player.update()
+      }
+    }
+
+  }
+
 }
 
 

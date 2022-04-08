@@ -13,6 +13,7 @@ var obstacles, obsimg1, obsimg2
 var fuels, fuelimg
 var coins, coinimg
 var lifeimg
+var blastimg
 
 function preload() {
   backgroundImage = loadImage("./assets/planodefundo.png");
@@ -24,6 +25,7 @@ function preload() {
   fuelimg = loadImage("./assets/fuel.png")
   coinimg = loadImage("./assets/goldCoin.png")
   lifeimg = loadImage("./assets/life.png")
+  blastimg = loadImage("./assets/blast.png")
 }
 
 function setup() {
